@@ -1,0 +1,7 @@
+{
+  "name": "SnapNote",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
