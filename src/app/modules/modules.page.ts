@@ -1,4 +1,7 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
+import { getAuth  } from '@angular/fire/auth';
 import { AlertController, ModalController } from '@ionic/angular';
 import { DataService , Module} from '../services/data.service';
 
@@ -10,26 +13,77 @@ import { DataService , Module} from '../services/data.service';
 })
 export class ModulesPage implements OnInit {
 
-  modules = [];
+  userLoggedIn:boolean = false;
+  modules: Module[];
+  email:string;   
+ 
+  
  
 
-  constructor(private dataService: DataService , private alertCtrl :AlertController , private modalCtrl: ModalController) {
+  constructor(private dataService: DataService , private alertCtrl :AlertController , private modalCtrl: ModalController , private auth : AuthService) {
 
-    this.dataService.getModules().subscribe(res => {
-      console.log(res);
-      this.modules = res;
-    })
+    
+     if(getAuth().currentUser == null){
+       //logged out
+       this.userLoggedIn = false;
+     }else {
+      //logged in
+      this.userLoggedIn = true;
+      this.dataService.getModules(auth.GetUserEmail()).subscribe(res => {
+        console.log(res);
+         this.modules = res;
+       })
+     }
+
+    
+
+   
+  
    }
 
-   //Methods
+   logout(){
+    this.auth.LogOut();
+  }
   
 
 
+   async updateModule(module:Module){
+    const alert = await this.alertCtrl.create({
+      header: 'Add Module',
+      inputs:[
+        {
+          name:'name',
+          placeholder: module.name,
+          type: 'text'
+        },
+       
+      ],
+      buttons: [
+        {
+          text:'Cancel',
+          role: 'cancel'
+        },
+        {
+          text:'Add',
+          handler:(res)=>{
+            this.dataService.updateModule(this.auth.GetUserEmail(), module.id , { name: res.name ,  notes :module.notes ,  user:getAuth().currentUser.email,})
+          }
+        }
+      ]
+    });
 
-   async addModule(Module){
+    await alert.present();
+  
+   }
 
-    console.log('triggered');
+   deleteModule(module:Module){
 
+
+ 
+    this.dataService.deleteModule(getAuth().currentUser.email , module.id);
+   }
+
+   async addModule(){
     const alert = await this.alertCtrl.create({
       header: 'Add Module',
       inputs:[
@@ -48,7 +102,7 @@ export class ModulesPage implements OnInit {
         {
           text:'Add',
           handler:(res)=>{
-            this.dataService.addModule({name: res.name})
+            this.dataService.addModule(this.auth.GetUserEmail(), {user:getAuth().currentUser.email, name: res.name , notes : null})
           }
         }
       ]
@@ -61,6 +115,28 @@ export class ModulesPage implements OnInit {
 
    
   ngOnInit() {
+    
+
+
   }
+
+  
+  getModules(){
+    //This method will be responsible for getting all the users modules
+      
+
+    //if the user is logged in show them their modules
+    if(getAuth().currentUser == null){
+      this.userLoggedIn = false;
+    }else {
+      this.userLoggedIn = true;
+    }
+
+    //otherwise show them a logged in button
+
+    //now we want to get modules 
+    
+  }
+
 
 }

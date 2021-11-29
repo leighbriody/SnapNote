@@ -1,36 +1,69 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  color="primary"> 
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>Modules</ion-title>
+    <ion-title>My Modules</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Modules</ion-title>
+      <ion-title size="large">Modules </ion-title>
     </ion-toolbar>
   </ion-header>
 
+    <!--If the user is logged in we want to display to them the modules -->
+    <ion-content [fullscreen]="true" *ngIf="userLoggedIn">
+      <ion-list>
+       <ion-item *ngFor="let module of modules" >
+      <ion-label [routerLink]="['/','module-topics',module.id.toString()]" >  {{module.name}}    </ion-label>
 
-<ion-content [fullscreen]="true">
-  
-  <ion-list>
-    <ion-item *ngFor="let module of modules" [routerLink]="['/','module-topics',module.id.toString()]">
-       
-      <ion-label>
-       
-      {{module.name}}
-      </ion-label>
+      <ion-icon (click)="updateModule(module)"slot="end" size="s" style="margin-right: 5%;" name="pencil"></ion-icon>
+      <ion-icon   (click)="deleteModule(module)"slot="end" size="medium" style="margin-right: 5%;" name="trash"></ion-icon>
     </ion-item>
   </ion-list>
+
+  <ion-button>Choose Photos</ion-button>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addModule()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+ 
+</ion-content>
+
+
+
+<!--ELSE - we want to let them know they need to sign in or register to view and add modules-->
+<ion-content>
+  <ion-card>
+    <ion-card-header class=".ion-text-center">
+      <ion-card-title style="text-align:center" >Ooops! You're Logged Out! </ion-card-title>
+    </ion-card-header>
+  
+    
+    <ion-card-content style="text-align:center">
+      <img src="./assets/loggedout.png">
+      You will need to login or register in order to use these great features! , Dont panic it only takes a second  <br>
+      <ion-button [routerLink]="['/','register']">
+        Login
+        <ion-icon slot="end" name="person"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['/','login']">
+        Register
+        <ion-icon slot="end" name="person"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
+
+
 
 </ion-content>
