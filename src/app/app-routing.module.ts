@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'index',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -38,6 +38,10 @@ const routes: Routes = [
   {
     path: 'logout',
     loadChildren: () => import('./pages/logout/logout.module').then( m => m.LogoutPageModule)
+  },
+  {
+    path: 'delete',
+    loadChildren: () => import('./pages/delete/delete.module').then( m => m.DeletePageModule)
   },
  
 ];

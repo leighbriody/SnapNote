@@ -18,6 +18,7 @@ export class AppComponent {
     { title: 'Sign In', url: '/login', icon: 'Card' },
     { title: 'Register', url: '/register', icon: 'Card' },
     { title: 'Logout', url: '/logout', icon: 'Card' },
+    { title: 'Delete', url: '/delete', icon: 'Card' },
   ];
  
   constructor(private auth : AuthService) {

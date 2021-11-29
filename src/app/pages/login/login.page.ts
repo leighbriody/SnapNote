@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./auth.scss' , './sign-in-page.scss' ],
 })
 export class LoginPage implements OnInit {
 

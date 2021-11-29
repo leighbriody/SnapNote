@@ -1,3 +1,4 @@
+import { PhotoService } from './../services/photo.service';
 import { Component, OnInit } from '@angular/core';
 import { DataService, Module, ModuleTopic } from '../services/data.service';
 
@@ -6,6 +7,13 @@ import { Observable } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Auth, getAuth } from '@angular/fire/auth';
+
+//camera plugin
+import {Plugins} from "@capacitor/core";
+
+const {Camera} = Plugins;
+
+
 
 @Component({
   selector: 'app-module-topics',
@@ -26,8 +34,11 @@ export class ModuleTopicsPage implements OnInit {
   user:string;
   name:string;
   notes: Array<string>;
+
+  //camera options
   
-  constructor(private activatedRouter: ActivatedRoute , private dataService: DataService , private alertCtrl :AlertController  , private auth : AuthService) {
+  
+  constructor(private activatedRouter: ActivatedRoute , private dataService: DataService , private alertCtrl :AlertController  , private auth : AuthService , private camera: PhotoService) {
 
     //Once mobile development is clicked they will be brought to this page
     //We have the module id here 
@@ -53,6 +64,11 @@ export class ModuleTopicsPage implements OnInit {
   
   }
 
+  
+  takePic(){
+  
+  }
+
 
   deleteNote(note:string){
 
@@ -71,7 +87,6 @@ export class ModuleTopicsPage implements OnInit {
     console.log("Update note called" , note);
     //this.dataService.updateNote(getAuth().currentUser.email , this.moduleId , note);
   }
-
 
 
 

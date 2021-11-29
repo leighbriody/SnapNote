@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="card-background"></div>
+  <div class="flex-view">
+    <div>
+      <h1>Welcome!</h1>
+      <p>Sign in to continue</p>
+    </div>
+
+    <!-- INPUT CARD START -->
+    <div class="input-card">
+      <!-- EMAIL INPUT -->
+      <ion-item class="floating-input">
+        <ion-label position="floating">E-mail</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <!-- PASSWORD INPUT -->
+      <ion-item class="floating-input">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input #passwordInput class="ion-padding-right" clearOnEdit="false" [type]="showPassword ? 'text' : 'password'">
+        </ion-input>
+        <!-- SHOW PASSWORD BUTTON -->
+        <ion-button slot="end" (click)="togglePassword()" shape="round" color="dark" fill="clear">
+          <ion-icon slot="icon-only" [name]="showPassword ? 'eye' : 'eye-off'"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <!-- SUBMIT BUTTON -->
+      <ion-button routerLink="/social/home" class="custom-button" expand="block">
+        Sign in
+      </ion-button>
+    </div>
+    <!-- INPUT CARD END -->
+    <div>
+      <div class="ion-text-center">
+        <ion-button fill="clear" routerLink="/auth/signup" routerDirection="forward">
+          Create an account
+        </ion-button>
+      </div>
+      <div class="ion-text-center social-auth">
+        <ion-icon name="logo-facebook"></ion-icon>
+        <ion-icon name="logo-google"></ion-icon>
+        <ion-icon name="logo-twitter"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>
