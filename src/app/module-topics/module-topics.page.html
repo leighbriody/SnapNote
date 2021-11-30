@@ -9,6 +9,21 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   
+  
+  <!--Here we will display the image the user has selected , only if there is an image selected-->
+  <ion-card *ngIf="imageSelected == true">
+    <ion-card-content style="text-align:center">
+   
+      <img src="{{'data:image/jpg;base64,' + imagePath}}" />
+      Does this image look okay ?  <br>
+
+      <ion-button color="danger" (click)="pictureDenied()">Take Again </ion-button>
+      <ion-button color="success" (click)="pictureApproved()">Looks Good !</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+<!----->
+
 
   <ion-header></ion-header>
   <ion-list>
@@ -29,23 +44,14 @@
               </ion-card-header>
             </ion-card>
           </div>
-        
-            
-
-
-
-
-             
-             
           </ion-item>
         </ion-list>
     </ion-item>
   </ion-list>
 
-  
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button >
+    <ion-fab-button (click)="selectImage()" >
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>

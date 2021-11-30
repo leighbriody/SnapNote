@@ -13,12 +13,12 @@ export class AppComponent {
 
 
    
-    { title: 'Moudles', url: '/modules', icon: 'Pencil' },
+    { title: 'Moudles', url: '/modules', icon: 'school' },
     //if user is logged in dont need to show sign in and register instead
-    { title: 'Sign In', url: '/login', icon: 'Card' },
-    { title: 'Register', url: '/register', icon: 'Card' },
-    { title: 'Logout', url: '/logout', icon: 'Card' },
-    { title: 'Delete', url: '/delete', icon: 'Card' },
+    { title: 'Sign In', url: '/login', icon: 'log-in' },
+    { title: 'Register', url: '/register', icon: 'person-add' },
+    { title: 'Logout', url: '/logout', icon: 'log-out' },
+   
   ];
  
   constructor(private auth : AuthService) {

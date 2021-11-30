@@ -1,3 +1,5 @@
+import { Directory } from '@capacitor/filesystem';
+
 import { PhotoService } from './../services/photo.service';
 import { Component, OnInit } from '@angular/core';
 import { DataService, Module, ModuleTopic } from '../services/data.service';
@@ -8,12 +10,19 @@ import { AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Auth, getAuth } from '@angular/fire/auth';
 
+
+
 //camera plugin
-import {Plugins} from "@capacitor/core";
+import {Camera , CameraResultType , CameraSource , Photo} from '@capacitor/camera';
+import { base64 } from '@firebase/util';
 
-const {Camera} = Plugins;
+const IMAGE_DIR = 'stored-images';
 
-
+interface LocalFile {
+  name:string,
+  path:string,
+  data:string,
+}
 
 @Component({
   selector: 'app-module-topics',
@@ -28,17 +37,24 @@ export class ModuleTopicsPage implements OnInit {
 
   moduleDetails: Module;
   ModuleDetails: Observable<Module>;
-
+  imagePath
   //Module Details 
   id?:string;
   user:string;
   name:string;
   notes: Array<string>;
 
+  imageString:string;
+
   //camera options
+  imageSelected = false;
+
   
   
-  constructor(private activatedRouter: ActivatedRoute , private dataService: DataService , private alertCtrl :AlertController  , private auth : AuthService , private camera: PhotoService) {
+  constructor(private activatedRouter: ActivatedRoute , private dataService: DataService , private alertCtrl :AlertController  , private auth : AuthService , private photoService: PhotoService) {
+
+
+    this.imageSelected = false;
 
     //Once mobile development is clicked they will be brought to this page
     //We have the module id here 
@@ -64,11 +80,74 @@ export class ModuleTopicsPage implements OnInit {
   
   }
 
+
   
-  takePic(){
-  
+
+  //The user has selected an image
+  async selectImage(){
+    //get the image using .getPhoto
+    const image = await Camera.getPhoto({
+      quality:90,
+      allowEditing:false,
+      //binary image ? 
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Photos
+      
+    });
+
+    //If we get an image back
+    if(image){
+
+      //set image selected to true
+      this.imageSelected = true;
+
+      //set the image path
+      this.imagePath = image.base64String;
+
+      //now we wait for the user to say if it looks good or not
+   
+      //call the camera service api image to get the text of the image
+    //this.photoService.getImageText( image.base64String);
+   
+}
+
+
   }
 
+
+  //The user has approved the picture they have taken
+  pictureApproved(){
+
+     
+    
+    //we take the image path and send it to the api and get the response
+      let imageAsText = this.photoService.getImageText( this.imagePath);
+    
+
+      console.log("About to add image as text to database");
+      console.log("Module id " , this.moduleId);
+      console.log("User " , this.auth.GetUserEmail());
+      console.log("Image as text" ,imageAsText )
+    
+    this.dataService.addNoteToModule(this.auth.GetUserEmail(),this.moduleId,imageAsText);
+
+   //remove image and other things
+    //we remove the image path 
+    this.imagePath = null;
+
+    //we set the pciture to false
+    this.imageSelected = false;
+  }
+
+
+  pictureDenied(){
+
+    //we remove the image path 
+    this.imagePath = null;
+
+    //we set the pciture to false
+    this.imageSelected = false;
+  }
 
   deleteNote(note:string){
 
@@ -120,6 +199,10 @@ export class ModuleTopicsPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  addImageAsNote(){
+    
   }
 
 

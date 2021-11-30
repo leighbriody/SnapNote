@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LogoutPage implements OnInit {
 
-  constructor(private auth : AuthService) { }
+  constructor(private auth : AuthService , private router: Router ) { }
 
   ngOnInit() {
   }
@@ -16,6 +17,10 @@ export class LogoutPage implements OnInit {
   logout(){
 
     this.auth.LogOut();
+
+    //bring them back to login
+     //If user login success redirect
+     this.router.navigateByUrl('login');
   }
 
 

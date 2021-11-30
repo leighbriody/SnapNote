@@ -30,6 +30,8 @@ export class LoginPage implements OnInit {
 
   
 
+  
+
   SignIn(){
 
     console.log("Sign in 1 trigger" , this.email , " " , this.password)
