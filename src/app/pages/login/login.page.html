@@ -11,18 +11,21 @@
 <ion-content>
 
 
+  <!--SHow them a small welcome-->
   <div class="card-background"></div>
   <div class="flex-view">
     <div>
       <h1 class="ion-text-center">Welcome!</h1>
       <p class="ion-text-center">Sign in to continue</p>
-    </div>
+  </div>
+
 
     <!-- INPUT CARD START -->
     <div class="input-card">
       <!-- EMAIL INPUT -->
       <ion-item class="floating-input">
         <ion-label position="floating">E-mail</ion-label>
+        <!--NgModel our user inputs so they are variables on the other pages -->
         <ion-input  [(ngModel)]="email"></ion-input>
       </ion-item>
       <!-- PASSWORD INPUT -->

@@ -19,38 +19,36 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
 
-
+  //here we set our variables
   showPassword:string;
   password:string;
   email:string;
   signUp:boolean;
   result:String;
 
+  //track our user logged in status
   userLoggedIn:boolean;
 
-   
+  //make our injections into the constructor
   constructor(private dataService : DataService, private auth : AuthService , private router: Router ) { }
 
+  
   ngOnInit() {
-
-   
   }
 
-
+  /**
+   * This sign up method will be triggered when the user clicks the sign up button.
+   * We will take the user email and password the user has entered on the view and pass them to
+   * the firebase auth method SignUp
+   */
    SignUp(){
 
-      console.log("Sign up 1 trigger" , this.email , " " , this.password);
-      
-
+        //call the sign up method
        this.auth.SignUp(this.email,this.password)
 
        //clear fields
-    this.email ="";
-    this.password = "";
-
-    
-   
-  }
-
+       this.email ="";
+      this.password = "";
  
+  }
 }

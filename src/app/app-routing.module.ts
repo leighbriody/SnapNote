@@ -31,10 +31,7 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
-  {
-    path: 'index',
-    loadChildren: () => import('./index/index.module').then( m => m.IndexPageModule)
-  },
+  
   {
     path: 'logout',
     loadChildren: () => import('./pages/logout/logout.module').then( m => m.LogoutPageModule)

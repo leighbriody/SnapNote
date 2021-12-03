@@ -1,3 +1,5 @@
+
+//make alll our neccessary imports 
 import { Injectable } from '@angular/core';
 import { getAuth, User } from '@angular/fire/auth';
 import { addDoc, collection, collectionData, doc, docData, Firestore, setDoc } from '@angular/fire/firestore';
@@ -5,20 +7,26 @@ import { arrayRemove, arrayUnion, collectionGroup, deleteDoc, getDoc, updateDoc 
 import { stringify } from 'querystring';
 import { Observable } from 'rxjs';
 
-//create our interface for our note
-//create interface 
+
+
+//We also want to make our interfaces in our data class.
+//These classes will represent our DTO (Data transfer objects)
+
+//Here I create one for the note
 export interface Note {
   id?: string,
   title:string,
   text:string,
 }
 
+//Here I create one for the module topcis
 export interface ModuleTopic
 {
   id?:string
   name:string 
 }
 
+//here I create one for the module
 export interface Module {
   id?:string,
   user:string,
@@ -28,25 +36,25 @@ export interface Module {
   
 }
 
-export interface Test {
-  id?:string,
-  userI
-  text:string
-  
-}
-
-
 @Injectable({
   providedIn: 'root'
 })
+
+/***
+ * This data service class deals with all the data operations we need to make to our firestore database.
+ * It candles all the CRUD operations and communicates with firebase
+ */
 export class DataService {
 
-
-
-
+  //inject a reference to our firestore as we will need to use it
   constructor(private firestore: Firestore) { }
 
 
+  /**
+   * This get modules method takes a user email as paramater and gets all the modules for that user.
+   * @param email 
+   * @returns 
+   */
   getModules(email:string):Observable<Module[]> {
     //now when we get modules we need to get the ones based on current logged in user id    
     //When this method is called we need to get the sub collection of the users 
@@ -55,20 +63,26 @@ export class DataService {
     if(email == null){
       email = "";
     }
+    
+    //get a reference to that collection and return it
     const modulesRef = collection(this.firestore,'users/' + email + '/modules');
-    console.log("Module doc ref  " ,modulesRef );
-    console.log("Current User Email" , email);    
     return collectionData(modulesRef, {idField:'id'}) as Observable<Module[]>;
   }
 
 
-  //This method will be get module by id
+  /**
+   * This method returns aa single moudle given the id.
+   * @param email 
+   * @param moduleId 
+   * @returns 
+   */
   getModule(email:string , moduleId:string): Observable<Module> {
 
     //we are given the module id the user has clicked ex Mobile Development
     //We want to get the document
     const moduleRef = doc(this.firestore , 'users/' + email + '/modules/' + moduleId);
      
+    //return it
     return docData(moduleRef , {idField:'id'}) as Observable<Module>;
 
   }

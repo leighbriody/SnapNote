@@ -1,3 +1,5 @@
+
+<!--Header to display current page to user along with back button option-->
 <ion-header [translucent]="true">
   <ion-toolbar  color="primary"> 
     <ion-buttons slot="start">
@@ -10,36 +12,32 @@
 <ion-content [fullscreen]="true">
   
   
-  <!--Here we will display the image the user has selected , only if there is an image selected-->
+  <!--Here we will display the image the user has selected , only if there is an image selected-
+    We will also give the user an option to say the image is good , or take again -->
   <ion-card *ngIf="imageSelected == true">
     <ion-card-content style="text-align:center">
-   
       <img src="{{'data:image/jpg;base64,' + imagePath}}" />
       Does this image look okay ?  <br>
-
       <ion-button color="danger" (click)="pictureDenied()">Take Again </ion-button>
       <ion-button color="success" (click)="pictureApproved()">Looks Good !</ion-button>
     </ion-card-content>
   </ion-card>
 
-<!----->
 
 
-  <ion-header></ion-header>
+
+  <!--Here we will iterate and display all the quotes of type which the user has chosen-->
   <ion-list>
     <ion-item >
         <ion-list>
           <ion-item *ngFor="let note of notes">
-
-
             <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
             <ion-card>
- 
               <ion-card-content stye>
                 {{note}}
               </ion-card-content>
-              <ion-card-header>
-               
+              <ion-card-header>    
+                <!--We will have a delete buttob , if the user wishes to delete a note we pass the note object and it will b delete-->   
                  <ion-item  (click)="deleteNote(note)" ><ion-icon slot="end" size="medium" style="margin-right: 5%;" name="trash"></ion-icon></ion-item>   
               </ion-card-header>
             </ion-card>
@@ -49,13 +47,16 @@
     </ion-item>
   </ion-list>
 
-
+<!--Here we have the button to select an image , this user can upload an image of text 
+    and if they are happy with the image the application will change it to text and make 
+    a new note and add it to firebase-->
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="selectImage()" >
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   
+  <!--Here we habve the option to add a module note by text -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addModuleNote()">
       <ion-icon name="add"></ion-icon>

@@ -14,12 +14,13 @@ export class LogoutPage implements OnInit {
   ngOnInit() {
   }
 
+  /***
+   * If this method is called the uer ha
+   */
   logout(){
-
     this.auth.LogOut();
-
     //bring them back to login
-     //If user login success redirect
+    //If user login success redirect
      this.router.navigateByUrl('login');
   }
 
